@@ -21,24 +21,14 @@ function useVisibleCount() {
 export default function Carousel({ products }) {
   const visibleCount = useVisibleCount();
   const viewportRef = useRef(null);
-  const [progress, setProgress] = useState(0); // 0..1
-  const [thumbWidth, setThumbWidth] = useState(0.5); // fraction of bar
-
-  // Drag state
-  const startX = useRef(null);
-  const scrollStartLeft = useRef(0);
-  const isDragging = useRef(false);
-
-  // Progress bar drag state
-  const barRef = useRef(null);
-  const isDraggingBar = useRef(false);
+  const [progress, setProgress] = useState(0);
+  const [thumbWidth, setThumbWidth] = useState(0.5);
 
   const updateProgress = useCallback(() => {
     const el = viewportRef.current;
     if (!el) return;
     const maxScroll = el.scrollWidth - el.clientWidth;
-    const p = maxScroll > 0 ? el.scrollLeft / maxScroll : 0;
-    setProgress(p);
+    setProgress(maxScroll > 0 ? el.scrollLeft / maxScroll : 0);
     setThumbWidth(el.clientWidth / el.scrollWidth);
   }, []);
 
@@ -57,41 +47,9 @@ export default function Carousel({ products }) {
     el.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
   };
 
-  // Touch swipe
-  const onTouchStart = (e) => { startX.current = e.touches[0].clientX; };
-  const onTouchEnd = (e) => {
-    const diff = startX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) scrollBy(diff > 0 ? 1 : -1);
-  };
-
-  // Mouse drag on carousel
-  const onMouseDown = (e) => {
-    e.preventDefault();
-    isDragging.current = true;
-    startX.current = e.clientX;
-    scrollStartLeft.current = viewportRef.current.scrollLeft;
-    viewportRef.current.style.cursor = 'grabbing';
-  };
-  const onMouseMove = (e) => {
-    if (!isDragging.current) return;
-    viewportRef.current.scrollLeft = scrollStartLeft.current - (e.clientX - startX.current);
-  };
-  const onMouseUp = () => {
-    isDragging.current = false;
-    if (viewportRef.current) viewportRef.current.style.cursor = 'grab';
-  };
-
   // Progress bar drag
-  const onBarMouseDown = (e) => {
-    e.preventDefault();
-    isDraggingBar.current = true;
-    moveBarTo(e.clientX);
-  };
-  const onBarMouseMove = useCallback((e) => {
-    if (!isDraggingBar.current) return;
-    moveBarTo(e.clientX);
-  }, []);
-  const onBarMouseUp = useCallback(() => { isDraggingBar.current = false; }, []);
+  const barRef = useRef(null);
+  const isDraggingBar = useRef(false);
 
   const moveBarTo = (clientX) => {
     const bar = barRef.current;
@@ -103,6 +61,10 @@ export default function Carousel({ products }) {
     el.scrollLeft = ratio * maxScroll;
   };
 
+  const onBarMouseDown = (e) => { e.preventDefault(); isDraggingBar.current = true; moveBarTo(e.clientX); };
+  const onBarMouseMove = useCallback((e) => { if (isDraggingBar.current) moveBarTo(e.clientX); }, []);
+  const onBarMouseUp = useCallback(() => { isDraggingBar.current = false; }, []);
+
   useEffect(() => {
     window.addEventListener('mousemove', onBarMouseMove);
     window.addEventListener('mouseup', onBarMouseUp);
@@ -113,28 +75,20 @@ export default function Carousel({ products }) {
   }, [onBarMouseMove, onBarMouseUp]);
 
   const thumbLeft = progress * (1 - thumbWidth) * 100;
+  const cardWidthPercent = 100 / visibleCount;
 
   return (
     <div className="carousel-outer">
       <div className="carousel-wrapper">
         <button className="carousel-arrow" onClick={() => scrollBy(-1)} aria-label="Previous">‹</button>
 
-        <div
-          className="carousel-viewport"
-          ref={viewportRef}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-        >
+        <div className="carousel-viewport" ref={viewportRef}>
           <div className="carousel-track">
             {products.map((product, i) => (
               <div
                 key={i}
                 className="carousel-item"
-                style={{ flex: `0 0 ${100 / visibleCount}%` }}
+                style={{ flex: `0 0 ${cardWidthPercent}%`, scrollSnapAlign: 'start' }}
               >
                 <ProductCard product={product} />
               </div>
@@ -145,19 +99,8 @@ export default function Carousel({ products }) {
         <button className="carousel-arrow" onClick={() => scrollBy(1)} aria-label="Next">›</button>
       </div>
 
-      {/* Scrollbar */}
-      <div
-        className="carousel-scrollbar"
-        ref={barRef}
-        onMouseDown={onBarMouseDown}
-      >
-        <div
-          className="carousel-scrollbar-thumb"
-          style={{
-            width: `${thumbWidth * 100}%`,
-            left: `${thumbLeft}%`,
-          }}
-        />
+      <div className="carousel-scrollbar" ref={barRef} onMouseDown={onBarMouseDown}>
+        <div className="carousel-scrollbar-thumb" style={{ width: `${thumbWidth * 100}%`, left: `${thumbLeft}%` }} />
       </div>
     </div>
   );
