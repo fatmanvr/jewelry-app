@@ -1,6 +1,6 @@
-# Jewelry Product Listing Website
+# Jewelry Product Listing Application
 
-A full-stack product listing website for engagement rings with real-time gold price integration.
+A full-stack product listing application for engagement rings with real-time gold price integration.
 
 ## Tech Stack
 
