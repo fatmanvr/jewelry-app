@@ -5,7 +5,6 @@ import './App.css';
 
 const API_BASE = process.env.REACT_APP_API_URL || '';
 
-// Convert 0-5 star value to 0-1 popularity score
 function starsToScore(stars) {
   return stars / 5;
 }
@@ -14,7 +13,6 @@ export default function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [goldPrice, setGoldPrice] = useState(null);
 
   const [filters, setFilters] = useState({
     minPrice: '',
@@ -39,7 +37,6 @@ export default function App() {
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
       setProducts(data.products);
-      setGoldPrice(data.goldPricePerGram);
     } catch (e) {
       setError('Failed to load products. Please make sure the backend is running.');
     } finally {
@@ -62,9 +59,6 @@ export default function App() {
           <h1 className="page-title">Product List</h1>
           <div className="header-line" />
         </div>
-        {goldPrice && (
-          <p className="gold-price-badge">Gold: ${goldPrice.toFixed(2)}/g</p>
-        )}
       </header>
 
       <div className="filter-section">

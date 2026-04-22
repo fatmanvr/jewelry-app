@@ -62,44 +62,32 @@ body {
   padding: 40px 24px;
 }
 
+/* ── Header ── */
 .app-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-  gap: 12px;
+  justify-content: center;
+  margin-bottom: 48px;
 }
 
 .header-title-row {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
 .page-title {
   font-family: 'Avenir', sans-serif;
-  font-size: 42px;
+  font-size: 45px;
   font-weight: 400;
-  letter-spacing: -0.5px;
   color: #222;
   white-space: nowrap;
+  letter-spacing: -0.5px;
 }
 
 .header-line {
-  width: 180px;
+  width: 220px;
   height: 1px;
   background: #ccc;
-}
-
-.gold-price-badge {
-  font-size: 12px;
-  font-weight: 500;
-  color: #888;
-  background: #f8f5ee;
-  border: 1px solid #e6ca97;
-  border-radius: 20px;
-  padding: 4px 14px;
 }
 
 /* ── Filters ── */
@@ -301,16 +289,16 @@ body {
 }
 
 .product-name {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Avenir', sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: #222;
   margin-bottom: 4px;
 }
 
 .product-price {
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   color: #222;
   margin-bottom: 10px;
@@ -367,9 +355,9 @@ body {
 
 .rating-text {
   font-family: 'Montserrat', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: #888;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
 }
 
 /* ── Loading / Error States ── */
@@ -412,18 +400,6 @@ body {
   padding: 60px 0;
   color: #aaa;
   font-size: 14px;
-}
-
-/* ── Responsive ── */
-@media (max-width: 680px) {
-  .page-title { font-size: 28px; }
-  .header-line { width: 80px; }
-  .carousel-arrow { width: 36px; height: 36px; font-size: 20px; }
-}
-
-@media (max-width: 420px) {
-  .app { padding: 24px 12px; }
-  .carousel-arrow { width: 30px; height: 30px; font-size: 18px; }
 }
 
 /* ── Star Picker ── */
@@ -484,3 +460,16 @@ body {
   transition: color 0.15s;
 }
 .star-picker-clear:hover { color: #888; }
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .page-title { font-size: 32px; }
+  .header-line { width: 100px; }
+  .carousel-arrow { width: 36px; height: 36px; font-size: 20px; }
+}
+
+@media (max-width: 420px) {
+  .app { padding: 24px 12px; }
+  .carousel-arrow { width: 30px; height: 30px; font-size: 18px; }
+  .page-title { font-size: 26px; }
+}
