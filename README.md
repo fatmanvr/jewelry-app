@@ -5,9 +5,7 @@ A full-stack product listing application for engagement rings with real-time gol
 ## Live Demo
 
 - **Frontend:** https://jewelry-app-tau.vercel.app
-- **Backend API:** https://jewelry-app-production-427e.up.railway.app/api/products
-
-## Tech Stack
+- **Backend API:** https://jewelry-app-production-42d1.up.railway.app/api/products
 
 - **Backend:** Node.js + Express
 - **Frontend:** React
