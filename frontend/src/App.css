@@ -64,13 +64,13 @@ body {
 
 /* ── Header ── */
 .app-header {
+  margin-bottom: 48px;
   display: flex;
   justify-content: center;
-  margin-bottom: 48px;
 }
 
 .header-title-row {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 24px;
 }
@@ -88,6 +88,7 @@ body {
   width: 220px;
   height: 1px;
   background: #ccc;
+  flex-shrink: 0;
 }
 
 /* ── Filters ── */
@@ -327,7 +328,7 @@ body {
 }
 
 .color-label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Avenir', sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: #666;
